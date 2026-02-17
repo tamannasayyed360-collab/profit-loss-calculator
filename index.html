@@ -1,0 +1,647 @@
+<!DOCTYPE html>  
+<html lang="en">    
+    <head>    
+    <meta charset="UTF-8">    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <title>Profit & Loss Calculator</title>    
+    <style>    
+        * {    
+            margin: 0;    
+            padding: 0;    
+            box-sizing: border-box;    
+        }  :root {    
+        /* Light Mode Colors */    
+        --light-bg: #F6F7F9;    
+        --light-surface: #FFFFFF;    
+        --light-primary-text: #1F2937;    
+        --light-secondary-text: #6B7280;    
+        --light-border: #E5E7EB;    
+        --light-revenue: #10B981;    
+        --light-expense: #EF4444;    
+        --light-net-profit: #2563EB;    
+        --light-margin: #8B5CF6;    /*/* Dark Mode Colors */    
+    --dark-bg: #0F0F12;    
+    --dark-surface: #1A1B25;    
+    --dark-surface-hover: #2A2A35;    
+    --dark-primary-text: #F5F5FA;    
+    --dark-secondary-text: #9CA3AF;    
+    --dark-border: #2D2D3A;    
+    --dark-revenue: #4ADE80;    
+    --dark-expense: #F87171;    
+    --dark-net-profit: #60A5FA;    
+    --dark-margin: #C084FC;    
+
+    /* Current mode (default light) */    
+    --bg: var(--light-bg);    
+    --surface: var(--light-surface);    
+    --primary-text: var(--light-primary-text);    
+    --secondary-text: var(--light-secondary-text);    
+    --border: var(--light-border);    
+    --revenue: var(--light-revenue);    
+    --expense: var(--light-expense);    
+    --net-profit: var(--light-net-profit);    
+    --margin: var(--light-margin);    
+}    
+
+body.dark-mode {    
+    --bg: var(--dark-bg);    
+    --surface: var(--dark-surface);    
+    --primary-text: var(--dark-primary-text);    
+    --secondary-text: var(--dark-secondary-text);    
+    --border: var(--dark-border);    
+    --revenue: var(--dark-revenue);    
+    --expense: var(--dark-expense);    
+    --net-profit: var(--dark-net-profit);    
+    --margin: var(--dark-margin);    
+}    
+
+body {    
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;    
+    background-color: var(--bg);    
+    color: var(--primary-text);    
+    min-height: 100vh;    
+    display: flex;    
+    flex-direction: column;    
+    justify-content: center;    
+    align-items: center;    
+    padding: 20px;    
+    transition: background-color 0.3s ease, color 0.3s ease;    
+}    
+.wrapper {    
+    flex: 1;    
+    display: flex;    
+    justify-content: center;    
+    align-items: center;    
+    width: 100%;    
+}    
+
+.container {    
+    background-color: var(--surface);    
+    border-radius: 15px;    
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);    
+    padding: 40px;    
+    max-width: 600px;    
+    width: 100%;    
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;    
+}    
+
+body.dark-mode .container {    
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);    
+}    
+
+/* Header */    
+.header {    
+    display: flex;    
+    justify-content: space-between;    
+    align-items: center;    
+    margin-bottom: 30px;    
+    gap: 15px;    
+}    
+
+h1 {    
+    font-size: 28px;    
+    font-weight: 700;    
+    flex: 1;    
+}    /* Theme Toggle */    
+.theme-toggle {    
+    display: flex;    
+    align-items: center;    
+    gap: 10px;    
+    background-color: var(--bg);    
+    border: 2px solid var(--border);    
+    border-radius: 25px;    
+    padding: 5px 10px;    
+    cursor: pointer;    
+    transition: all 0.3s ease;    
+}    
+
+.theme-toggle:hover {    
+    border-color: var(--secondary-text);    
+}    
+
+.theme-toggle span {    
+    font-size: 18px;    
+}    
+
+.toggle-checkbox {    
+    display: none;    
+}    
+
+.toggle-slider {    
+    width: 40px;    
+    height: 24px;    
+    background-color: var(--border);    
+    border-radius: 12px;    
+    position: relative;    
+    transition: background-color 0.3s ease;    
+    cursor: pointer;    
+}    
+
+.toggle-slider::before {    
+    content: '';    
+    position: absolute;    
+    width: 20px;    
+    height: 20px;    
+    border-radius: 50%;    
+    background-color: var(--surface);    
+    top: 2px;    
+    left: 2px;    
+    transition: left 0.3s ease;    
+}    
+
+.toggle-checkbox:checked + .toggle-slider {    
+    background-color: var(--net-profit);    
+}    
+
+.toggle-checkbox:checked + .toggle-slider::before {    
+    left: 18px;    
+}    
+
+/* Sections */    
+.section {    
+    margin-bottom: 30px;    
+}    
+
+.section-title {    
+    background: linear-gradient(135deg, var(--revenue) 0%, var(--margin) 100%);    
+    color: white;    
+    padding: 12px 15px;    
+    border-radius: 8px;    
+    margin-bottom: 15px;    
+    font-weight: 600;    
+    font-size: 16px;    
+}    
+
+.input-group {    
+    display: grid;    
+    grid-template-columns: 1fr 1fr;    
+    gap: 15px;    
+    margin-bottom: 15px;    
+}    
+
+.input-group.full {    
+    grid-template-columns: 1fr;    
+}    
+
+.form-group {    
+    display: flex;    
+    flex-direction: column;    
+}    
+
+label {    
+    font-weight: 600;    
+    margin-bottom: 6px;    
+    color: var(--secondary-text);    
+    font-size: 14px;    
+    transition: color 0.3s ease;    
+}    
+input[type="number"] {    
+    padding: 10px 12px;    
+    border: 2px solid var(--border);
+  border-radius: 6px;    
+    font-size: 14px;    
+    background-color: var(--bg);    
+    color: var(--primary-text);    
+    transition: all 0.3s ease;    
+}    
+
+input[type="number"]:focus {    
+    outline: none;    
+    border-color: var(--revenue);    
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);    
+}    
+
+body.dark-mode input[type="number"]:focus {    
+    box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.1);    
+}    
+
+/* Buttons */    
+.button-group {    
+    display: grid;    
+    grid-template-columns: 1fr 1fr;    
+    gap: 10px;    
+    margin-top: 25px;    
+}    
+
+button {    
+    padding: 12px 20px;    
+    border: none;    
+    border-radius: 6px;    
+    font-size: 14px;    
+    font-weight: 600;    
+    cursor: pointer;    
+    transition: all 0.3s ease;    
+}    
+
+.btn-calculate {    
+    background: linear-gradient(135deg, var(--revenue) 0%, var(--net-profit) 100%);    
+    color: white;    
+}    
+
+.btn-calculate:hover {    
+    transform: translateY(-2px);    
+    box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);    
+}    
+
+body.dark-mode .btn-calculate:hover {    
+    box-shadow: 0 10px 25px rgba(74, 222, 128, 0.3);    
+}    
+
+.btn-reset {    
+    background-color: var(--border);    
+    color: var(--primary-text);    
+    border: 2px solid var(--border);    
+}    
+
+.btn-reset:hover {    
+    background-color: var(--secondary-text);    
+    border-color: var(--secondary-text);    
+    color: var(--surface);    
+}    
+
+/* Results Section */    
+.result-section {    
+    background-color: var(--bg);    
+    padding: 25px;    
+    border-radius: 12px;    
+    margin-top: 25px;    
+    border: 2px solid var(--border);    
+    transition: all 0.3s ease;    
+}    
+
+.result-item {    
+    display: flex;    
+    justify-content: space-between;    
+    align-items: center;    
+    padding: 14px 0;    
+    border-bottom: 1px solid var(--border);    
+}    
+
+.result-item:last-child {    
+    border-bottom: none;    
+}    
+
+.result-label {    
+    font-weight: 500;    
+    color: var(--secondary-text);    
+    font-size: 15px;    
+    transition: color 0.3s ease;    
+}    
+
+.result-value {    
+    font-weight: 700;    
+    font-size: 16px;    
+    transition: color 0.3s ease;    
+}    
+
+/* Revenue Results */    
+.result-item.revenue .result-value {    
+    color: var(--revenue);    
+}    
+
+/* Expense Results */    
+.result-item.expense .result-value {    
+    color: var(--expense);    
+}    
+
+/* Margin Results */    
+.result-item.margin .result-value {    
+    color: var(--margin);    
+}    
+
+/* Highlighted Results (Gross & Net Profit) */    
+.result-item.highlight {    
+    background-color: var(--surface);    
+    padding: 16px 15px;    
+    border-radius: 8px;    
+    margin: 12px 0;    
+    border: 2px solid var(--border);    
+}    
+
+.result-item.highlight .result-label {    
+    font-size: 16px;    
+    font-weight: 600;    
+    color: var(--primary-text);    
+}    
+
+.result-item.highlight .result-value {    
+    font-size: 22px;    
+    font-weight: 700;    
+}    
+
+/* Net Profit Special Styling */    
+.result-item.net-profit {    
+    border: none;    
+}    
+
+.result-item.net-profit.highlight {    
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);    
+    border: 2px solid var(--net-profit);    
+    padding: 18px 15px;    
+}    
+
+body.dark-mode .result-item.net-profit.highlight {    
+    background: linear-gradient(135deg, rgba(96, 165, 250, 0.15) 0%, rgba(192, 132, 252, 0.15) 100%);    
+}    
+
+.result-item.net-profit .result-value {    
+    color: var(--net-profit);    
+    font-size: 24px;    
+}    /* Gross Profit */    
+.result-item.gross-profit.highlight {    
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);    
+    border: 2px solid var(--revenue);    
+}    
+
+body.dark-mode .result-item.gross-profit.highlight {    
+    background: linear-gradient(135deg, rgba(74, 222, 128, 0.15) 0%, rgba(192, 132, 252, 0.15) 100%);    
+}    
+
+.result-item.gross-profit .result-value {    
+    color: var(--revenue);    
+}    
+
+/* Note */    
+.note {    
+    background-color: var(--bg);    
+    border-left: 4px solid var(--margin);    
+    padding: 14px;    
+    border-radius: 6px;    
+    font-size: 13px;    
+    color: var(--secondary-text);    
+    margin-top: 15px;    
+    transition: all 0.3s ease;    
+}    
+
+/* Footer */    
+footer {    
+    text-align: center;    
+    padding: 20px;    
+    color: var(--secondary-text);    
+    font-size: 14px;    
+    margin-top: 30px;    
+    transition: color 0.3s ease;    
+}    
+
+/* Responsive */    
+@media (max-width: 600px) {    
+    .container {    
+        padding: 25px;    
+    }    
+
+    h1 {    
+        font-size: 24px;    
+    }    
+
+    .header {    
+        flex-direction: column;    
+        align-items: stretch;    
+    }    
+
+    .theme-toggle {    
+        justify-content: center;    
+        width: 100%;    
+  }    
+
+    .input-group {    
+        grid-template-columns: 1fr;    
+    }    
+
+    .button-group {    
+        grid-template-columns: 1fr;    
+    }    
+
+    .result-item.highlight .result-value {    
+        font-size: 20px;    
+    }    
+
+    .result-item.net-profit .result-value {    
+        font-size: 22px;    
+    }    
+}    
+
+/* Animations */    
+@keyframes slideIn {    
+    from {    
+        opacity: 0;    
+        transform: translateY(10px);    
+    }    
+    to {    
+        opacity: 1;    
+        transform: translateY(0);    
+    }    
+}    
+
+#results {    
+    animation: slideIn 0.3s ease;    
+}
+
+</style>  </head>    
+<body>    
+    <div class="wrapper">    
+        <div class="container">    
+            <!-- Header with Theme Toggle -->    
+            <div class="header">    
+                <h1>Profit & Loss Calculator</h1>    
+                <label class="theme-toggle">    
+                    <span>🌙</span>    
+                    <input type="checkbox" class="toggle-checkbox" id="themeToggle">    
+                    <div class="toggle-slider"></div>    
+                    <span>☀️</span>    
+                </label>    
+            </div>  <form id="plForm">    
+            <!-- Revenue Section -->    
+            <div class="section">    
+                <div class="section-title">Revenue</div>    
+                <div class="input-group full">    
+                    <div class="form-group">    
+                        <label for="revenue">Total Revenue (₹)</label>    
+                        <input type="number" id="revenue" placeholder="0.00" min="0" step="0.01" required>    
+                    </div>    
+                </div>    
+            </div>    <!-- Cost of Goods Sold Section -->    <div class="section">    
+            <div class="section-title">Cost of Goods Sold (COGS)</div>    
+            <div class="input-group full">    
+                <div class="form-group">    
+                    <label for="cogs">Total COGS (₹)</label>    
+                    <input type="number" id="cogs" placeholder="0.00" min="0" step="0.01" required>    
+                </div>    
+            </div>    
+        </div>    
+
+        <!-- Operating Expenses Section -->    
+        <div class="section">    
+            <div class="section-title">Operating Expenses</div>    
+            <div class="input-group">    
+                <div class="form-group">    
+                    <label for="salaries">Salaries & Wages (₹)</label>    
+                    <input type="number" id="salaries" placeholder="0.00" min="0" step="0.01">    
+                </div>    
+                <div class="form-group">    
+                    <label for="rent">Rent & Utilities (₹)</label>    
+                    <input type="number" id="rent" placeholder="0.00" min="0" step="0.01">    
+                </div>    
+            </div>    
+            <div class="input-group">    
+                <div class="form-group">    
+                    <label for="marketing">Marketing & Advertising (₹)</label>    
+                    <input type="number" id="marketing" placeholder="0.00" min="0" step="0.01">    
+                </div>    
+                <div class="form-group">    
+                    <label for="equipment">Equipment & Maintenance (₹)</label>    
+                    <input type="number" id="equipment" placeholder="0.00" min="0" step="0.01">    
+                </div>    
+            </div>    
+            <div class="input-group">    
+                <div class="form-group">    
+                    <label for="depreciation">Depreciation (₹)</label>    
+                    <input type="number" id="depreciation" placeholder="0.00" min="0" step="0.01">    
+                </div>    
+                <div class="form-group">    
+                    <label for="otherExpenses">Other Operating Expenses (₹)</label>    
+                    <input type="number" id="otherExpenses" placeholder="0.00" min="0" step="0.01">    
+                </div>    
+            </div>    
+        </div>    
+        <!-- Buttons -->    
+        <div class="button-group">    
+            <button type="button" class="btn-calculate" id="calculateBtn">Calculate</button>    
+            <button type="reset" class="btn-reset" id="resetBtn">Reset</button>    
+        </div>    
+    </form>    
+
+    <!-- Results Section -->    
+    <div id="results" style="display: none;">    
+        <div class="result-section">    
+            <!-- Revenue (Display) -->    
+            <div class="result-item revenue">    
+                <span class="result-label">Total Revenue</span>    
+                <span class="result-value" id="revenueDisplay">₹0.00</span>    
+            </div>    
+
+            <!-- COGS (Display) -->    
+            <div class="result-item expense">    
+                <span class="result-label">Cost of Goods Sold</span>    
+                <span class="result-value" id="cogsDisplay">₹0.00</span>    
+            </div>    
+
+            <!-- Gross Profit (Highlighted) -->    
+            <div class="result-item highlight gross-profit">    
+                <span class="result-label">Gross Profit</span>    
+                <span class="result-value" id="gpResult">₹0.00</span>    
+            </div>    
+
+            <!-- Gross Margin % -->    
+            <div class="result-item margin">    
+                <span class="result-label">Gross Margin %</span>    
+                <span class="result-value" id="gmResult">0.00%</span>    
+            </div>    
+
+            <!-- Operating Expenses (Display) -->    
+            <div class="result-item expense">    
+                <span class="result-label">Total Operating Expenses</span>    
+                <span class="result-value" id="opexDisplay">₹0.00</span>    
+            </div>    
+
+            <!-- Net Profit (Star of the Show - Highlighted) -->    
+            <div class="result-item highlight net-profit">    
+                <span class="result-label"> Net Profit</span>    
+                <span
+
+class="result-value" id="npResult">₹0.00</span>
+</div>
+
+<!-- Profit Margin % -->    
+            <div class="result-item margin">    
+                <span class="result-label">Profit Margin %</span>    
+                <span class="result-value" id="pmResult">0.00%</span>    
+            </div>    
+
+            <!-- Break-even Point -->    
+            <div class="result-item revenue">    
+                <span class="result-label">Break-even Revenue</span>    
+                <span class="result-value" id="beResult">₹0.00</span>    
+            </div>    
+        </div>    
+
+        <div class="note">    
+            <strong>💡 Tip:</strong> All calculations are based on your input. Monitor these metrics regularly to track your business health!    
+        </div>    
+    </div>    
+</div>
+
+</div>    <footer>    
+    © 2026 Tamanna. All rights reserved.    
+</footer>    <script>  
+document.addEventListener('DOMContentLoaded', function() {  
+  
+    const themeToggle = document.getElementById('themeToggle');  
+    const calculateBtn = document.getElementById('calculateBtn');  
+    const resetBtn = document.getElementById('resetBtn');  
+  
+    // Load saved theme  
+    const currentTheme =
+      localStorage.getItem('theme') || 'light';  
+    if (currentTheme === 'dark') {  
+        document.body.classList.add('dark-mode');  
+        themeToggle.checked = true;  
+    }  
+  
+    // Theme toggle  
+    themeToggle.addEventListener('change', function() {  
+        if (this.checked) {  
+            document.body.classList.add('dark-mode');  
+            localStorage.setItem('theme', 'dark');  
+        } else {  
+            document.body.classList.remove('dark-mode');  
+            localStorage.setItem('theme', 'light');  
+        }  
+    });  
+  
+    // Calculate button  
+    calculateBtn.addEventListener('click', calculatePL);  
+  
+    // Reset button  
+    resetBtn.addEventListener('click', function() {  
+        document.getElementById('results').style.display = 'none';  
+    });  
+  
+    // MAIN CALCULATION FUNCTION  
+    function calculatePL() {  
+  
+        let revenue = parseFloat(document.getElementById('revenue').value) || 0;  
+        let cogs = parseFloat(document.getElementById('cogs').value) || 0;  
+  
+        let salaries = parseFloat(document.getElementById('salaries').value) || 0;  
+        let rent = parseFloat(document.getElementById('rent').value) || 0;  
+        let marketing = parseFloat(document.getElementById('marketing').value) || 0;  
+        let equipment = parseFloat(document.getElementById('equipment').value) || 0;  
+        let depreciation = parseFloat(document.getElementById('depreciation').value) || 0;  
+        let otherExpenses = parseFloat(document.getElementById('otherExpenses').value) || 0;  
+  
+        let totalOpex = salaries + rent + marketing + equipment + depreciation + otherExpenses;  
+  
+        let grossProfit = revenue - cogs;  
+        let netProfit = grossProfit - totalOpex;  
+  
+        let grossMargin = revenue > 0 ? (grossProfit / revenue) * 100 : 0;  
+        let profitMargin = revenue > 0 ? (netProfit / revenue) * 100 : 0;  
+  
+        let breakEvenRevenue = profitMargin !== 0 ? totalOpex / (profitMargin / 100) : 0;  
+  
+        // Display results  
+        document.getElementById('revenueDisplay').innerText = `₹${revenue.toFixed(2)}`;  
+        document.getElementById('cogsDisplay').innerText = `₹${cogs.toFixed(2)}`;  
+        document.getElementById('opexDisplay').innerText = `₹${totalOpex.toFixed(2)}`;  
+        document.getElementById('gpResult').innerText = `₹${grossProfit.toFixed(2)}`;  
+        document.getElementById('npResult').innerText = `₹${netProfit.toFixed(2)}`;  
+        document.getElementById('gmResult').innerText = `${grossMargin.toFixed(2)}%`;  
+        document.getElementById('pmResult').innerText = `${profitMargin.toFixed(2)}%`;  
+        document.getElementById('beResult').innerText = `₹${breakEvenRevenue.toFixed(2)}`;  
+  
+        document.getElementById('results').style.display = 'block';  
+    }  
+  
+});  
+</script>  </body>  
+</html>
