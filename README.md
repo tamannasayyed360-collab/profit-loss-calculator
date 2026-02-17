@@ -9,16 +9,16 @@ This web application allows users to calculate Gross Profit, Net Profit, Margin 
 
 The Profit & Loss Calculator provides a structured financial input layout including Revenue, Cost of Goods Sold (COGS), and detailed Operating Expenses.
 
-The application features:
+### Key Features
 
-- Gradient section headers
-- Clean card-based layout
-- Light and Dark mode toggle
-- Mobile-friendly responsive design
-- Smooth UI transitions
-- Instant calculation results
+- Gradient section headers  
+- Clean card-based layout  
+- Light and Dark mode toggle  
+- Mobile-friendly responsive design  
+- Smooth UI transitions  
+- Instant calculation results  
 
-All financial calculations are handled client-side using JavaScript.
+All financial calculations are performed client-side using JavaScript.
 
 ---
 
@@ -31,61 +31,67 @@ All financial calculations are handled client-side using JavaScript.
 - Total COGS input
 
 ### Operating Expenses
-- Salaries & Wages
-- Rent & Utilities
-- Marketing & Advertising
-- Equipment & Maintenance
-- Depreciation
-- Other Operating Expenses
+- Salaries & Wages  
+- Rent & Utilities  
+- Marketing & Advertising  
+- Equipment & Maintenance  
+- Depreciation  
+- Other Operating Expenses  
 
 ### Calculated Outputs
-- Total Revenue (Display)
-- Total COGS (Display)
-- Gross Profit
-- Gross Margin %
-- Total Operating Expenses
-- Net Profit
-- Profit Margin %
-- Break-even Revenue
+- Total Revenue (Display)  
+- Total COGS (Display)  
+- Gross Profit  
+- Gross Margin %  
+- Total Operating Expenses  
+- Net Profit  
+- Profit Margin %  
+- Break-even Revenue  
 
 ---
 
 ## Technologies Used
 
-- HTML5
-- CSS3 (Custom properties, gradients, responsive layout)
-- Vanilla JavaScript (DOM manipulation, financial calculations, localStorage for theme)
+- HTML5  
+- CSS3 (Custom properties, gradients, responsive layout)  
+- Vanilla JavaScript (DOM manipulation, financial calculations, localStorage for theme preference)
 
 ---
 
 ## Project Structure
 
+```bash
 profit-loss-calculator/
-├── index.html  
+├── index.html
 └── README.md
+```
 
 ---
 
 ## How It Works
 
-1. Enter financial data into the input fields.
-2. Click the **Calculate** button.
+1. Enter financial data into the input fields.  
+2. Click the **Calculate** button.  
 3. The system computes:
-   - Gross Profit = Revenue − COGS  
-   - Net Profit = Gross Profit − Operating Expenses  
-   - Margin percentages  
-   - Break-even Revenue  
+
+   - **Gross Profit** = Revenue − COGS  
+   - **Gross Margin %** = (Gross Profit ÷ Revenue) × 100  
+   - **Total Operating Expenses** = Sum of all expense inputs  
+   - **Net Profit** = Gross Profit − Operating Expenses  
+   - **Profit Margin %** = (Net Profit ÷ Revenue) × 100  
+   - **Break-even Revenue** = Total Operating Expenses ÷ Gross Margin Ratio  
+
 4. Results are displayed in a structured summary section.
 
 ---
 
 ## Future Enhancements
 
-- Export results as PDF
-- Add graphical financial charts
-- Save financial sessions
-- Multi-currency support
-- Advanced financial ratios
+- Export results as PDF  
+- Add graphical financial charts  
+- Save financial sessions  
+- Multi-currency support  
+- Advanced financial ratios  
 
 ---
 
@@ -94,19 +100,13 @@ profit-loss-calculator/
 This application is provided for educational and informational purposes only.  
 All calculations are based solely on user input and do not constitute financial, accounting, tax, or investment advice.
 
-The author makes no guarantees regarding the accuracy or suitability of the results for business decision-making. Users are advised to consult a qualified professional before relying on these calculations.
+The author does not guarantee the accuracy or completeness of the results for business decision-making. Users are advised to consult a qualified professional before relying on these calculations.
 
 Under no circumstances shall the author be liable for any losses or damages arising from the use of this software.
 
 ---
 
-## License
+## Author
 
-For educational and personal use only.
-
----
-
-## Author 
-
-Tamanna Sayyed
+Tamanna Sayyed  
 © 2026 All Rights Reserved
